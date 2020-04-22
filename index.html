@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="css.css"> -->
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    background: skyblue;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+}
+
+p {
+    width: max-content;
+    margin: auto;
+    color: white;
+    font-size: 13vw;
+}
+
+#table {
+    border-collapse: collapse;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+#table tr {
+    width: 10vw;
+    height: 10vh;
+    /* position: relative; */
+}
+
+#table td {
+    width: 10vw;
+    height: 10vh;
+    background: white;
+    border: 2px solid black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    /* box-sizing: border-box; */
+}
+    </style>
+</head>
+<body>
+    <div>
+        <p>加油徒徒</p>
+    </div>
+    <table id="table">
+
+    </table>
+</body>
+<!-- <script src="js.js"></script> -->
+<script>
+    var table = document.getElementById("table")
+// 获取table
+for (var k = 0; k < 10; k++) {
+    var newTr = document.createElement("tr")
+    // 新建tr
+    for (var i = 0; i < 10; i++) {
+        var newTd = document.createElement("td")
+        // 新建Td
+        newTr.appendChild(newTd)
+        // 把td加入到tr中
+    }
+    table.appendChild(newTr)
+}
+var allTr = document.getElementsByTagName("tr")
+// 获取所有的tr
+for (var i = 0; i < 10; i++) {
+    var tr = allTr[i]
+    // tr.onclick=function () {
+    //     alert()
+    //   }
+    //   console.log(tr);
+    var tds = tr.getElementsByTagName("td")
+    // 获取每个tr中的所有td，这里是获取了本tr中的10个td
+
+    for (var k = 0; k < 10; k++) {
+        tds[k].style.left = 10 * k + "%"
+        tds[k].style.top = 10 * i+ "%"
+        tds[k].onclick = function () {
+            // console.log(this);
+            this.style.zIndex ="10"
+            this.style.backgroundColor = "red"
+            var td=this
+            var tim=this.timer = setInterval(function () {
+                var top = parseInt(getComputedStyle(td, null)["top"])
+                // console.log(top + 10 + "px");
+                td.style["top"]=top + 10 + "px"
+                var body=document.body
+                var max = parseInt(getComputedStyle(body, null)["height"])
+                if(top>=max){
+                    td.style.display="none"
+                    clearInterval(tim)
+                }
+            }, 10)
+        }
+    }
+}
+
+function getStyle(obj, name) {
+    return window.getComputedStyle ? getComputedStyle(obj, null)[name] : obj.currentStyle[name];
+}
+</script>
+</html>
