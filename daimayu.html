@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #canvas {
+            background: #111;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <audio src="鬼灭之刃.mp3" loop id="music"></audio>
+</body>
+<script>
+    var canvas = document.getElementById("canvas")
+    var context = canvas.getContext("2d")
+    var W = window.innerWidth;
+    var H = window.innerHeight;
+
+    canvas.height = H;
+    canvas.width = W;
+
+    var fontSize = 18;
+
+    var colums = Math.floor(W / fontSize);//宽比字体大小，一行的数量为colums
+    // console.log(colums);
+    var drops = [];
+    for (var i = 0; i < colums; i++) {//for循环，为数组drops加入colums个0
+        drops.push(0);
+    }
+    // console.log(drops);
+    var str = "01";
+    function draw() {
+        context.fillStyle = "rgba(0,0,0,0.05)";//把之前的fillStyle给改为透明度0.05，这样既相当于压没了，就能刷新出新的了
+        context.fillRect(0, 0, W, H);
+        // context.font ="1000"+fontSize + "px";
+        context.fillStyle = randColor();
+
+        for (var i = 0; i < colums; i++) {
+            // console.log(str.length)
+            var index = Math.floor(Math.random() * 2);
+            var x = i * fontSize;
+            var y = drops[i] * fontSize;
+            context.fillText(str[index], x, y);
+            if (y > canvas.height && Math.random() > 0.99) {//这里是在y在超出页面有，每次运行有百分之1的可能重置y的数值为0，也就是从头开始
+                drops[i] = 0;
+            }
+            drops[i]++;//这是产生下落效果的关键，for循环把全局里面的drops每一个元素的值都加了fonSize，所以每执行一次draw()位置都会向下移动
+        }
+    }
+    function randColor() {
+        var r = Math.floor(Math.random() * 256);
+        var g = Math.floor(Math.random() * 256);
+        var b = Math.floor(Math.random() * 256);
+        return "rgb(" + r + "," + g + "," + b + ")"
+    }
+    // draw();
+    setInterval(draw, 20);
+    function music() {
+        var music=document.getElementById("music")
+        music.play()
+      }
+      music()
+    // }
+</script>
+
+</html>
